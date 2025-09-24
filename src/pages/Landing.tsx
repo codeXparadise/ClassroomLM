@@ -112,10 +112,10 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Everything You Need for Modern Education
+              Everything You Need for AI-Powered Education
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our platform combines cutting-edge AI technology with practical classroom management tools
+              ClassroomLM combines cutting-edge AI technology with comprehensive classroom management tools
             </p>
           </div>
           
@@ -147,7 +147,7 @@ const Landing = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-white mb-6">
-                Why Choose InsightsLM?
+                Why Choose ClassroomLM?
               </h2>
               <p className="text-xl text-blue-100 mb-8 leading-relaxed">
                 Built on the foundation of NotebookLM's powerful AI capabilities, our classroom management system 
@@ -194,10 +194,10 @@ const Landing = () => {
       <section className="py-20 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Ready to Transform Your Classroom?
+            Ready to Transform Education?
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Join thousands of educators who are already using AI to enhance their teaching and student outcomes.
+            Join thousands of educators who are already using ClassroomLM to enhance their teaching and student outcomes.
           </p>
           <Button 
             size="lg" 
@@ -218,7 +218,7 @@ const Landing = () => {
               <div className="flex items-center space-x-3 mb-4">
                 <Logo size="md" className="bg-white" />
                 <div>
-                  <h3 className="text-xl font-bold">InsightsLM</h3>
+                  <h3 className="text-xl font-bold">ClassroomLM</h3>
                   <p className="text-gray-400">Classroom Management System</p>
                 </div>
               </div>
@@ -246,7 +246,7 @@ const Landing = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 InsightsLM. All rights reserved.</p>
+            <p>&copy; 2025 ClassroomLM. All rights reserved.</p>
           </div>
         </div>
       </footer>

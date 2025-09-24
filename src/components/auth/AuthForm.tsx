@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
 
 interface AuthFormProps {
   expectedRole?: 'student' | 'admin';
@@ -39,7 +40,10 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
     setLoading(true);
 
     try {
-      console.log('Attempting sign up for:', email, 'with role:', selectedRole);
+      console.log('Attempting sign up for:', email, 'with role:', expectedRole || selectedRole);
+      
+      // Use expectedRole if provided, otherwise use selectedRole
+      const userRole = expectedRole || selectedRole;
       
       const { error, data } = await supabase.auth.signUp({
         email,
@@ -47,8 +51,8 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
         options: {
           data: {
             full_name: fullName,
-            role: selectedRole,
-            student_id: selectedRole === 'student' ? studentId : null,
+            role: userRole,
+            student_id: userRole === 'student' ? studentId : null,
           }
         }
       });
@@ -67,8 +71,8 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
       console.log('Sign up successful:', data.user?.email);
       
       toast({
-        title: "Account Created!",
-        description: "Your account has been created successfully. You can now sign in.",
+        title: "Account Created Successfully!",
+        description: "Welcome to ClassroomLM! You can now sign in with your credentials.",
       });
 
       // Switch to sign in mode
@@ -137,8 +141,8 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
       }
       
       toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
+        title: "Welcome to ClassroomLM!",
+        description: "You have successfully signed in to your dashboard.",
       });
 
       // The AuthContext will handle the redirect automatically
@@ -158,16 +162,18 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>{isSignUp ? 'Create Account' : 'Sign In'}</CardTitle>
+        <CardTitle className="text-center text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          {isSignUp ? 'Create Account' : 'Welcome Back'}
+        </CardTitle>
         <CardDescription>
           {isSignUp 
-            ? 'Create a new account to get started' 
-            : 'Enter your credentials to access your account'
+            ? 'Join ClassroomLM and start your learning journey' 
+            : 'Sign in to access your personalized dashboard'
           }
         </CardDescription>
         {expectedRole && (
-          <div className="mt-2 p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-800">
+          <div className="mt-2 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200/50">
+            <p className="text-sm text-blue-800 font-medium">
               {isSignUp ? 'Creating account as:' : 'Signing in as:'} <span className="font-semibold capitalize">{expectedRole}</span>
             </p>
           </div>
@@ -192,7 +198,7 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
               {!expectedRole && (
                 <div className="space-y-2">
                   <Label htmlFor="role">Role</Label>
-                  <Select value={selectedRole} onValueChange={(value: 'student' | 'teacher' | 'admin') => setSelectedRole(value)}>
+                  <Select value={selectedRole} onValueChange={(value: 'student' | 'teacher' | 'admin') => setSelectedRole(value)} disabled={loading}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select your role" />
                     </SelectTrigger>
@@ -229,6 +235,7 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
+              disabled={loading}
             />
           </div>
           <div className="space-y-2">
@@ -241,9 +248,15 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
               required
               placeholder={isSignUp ? "Create a password (min 6 characters)" : "Enter your password"}
               minLength={6}
+              disabled={loading}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button 
+            type="submit" 
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 hover:scale-105 shadow-lg" 
+            disabled={loading}
+          >
+            {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {loading ? (isSignUp ? 'Creating Account...' : 'Signing In...') : (isSignUp ? 'Create Account' : 'Sign In')}
           </Button>
           
@@ -257,6 +270,7 @@ const AuthForm = ({ expectedRole }: AuthFormProps) => {
                 setFullName('');
                 setStudentId('');
               }}
+              disabled={loading}
               className="text-sm"
             >
               {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}

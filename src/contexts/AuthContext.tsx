@@ -123,7 +123,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const initializeAuth = async () => {
       try {
-        console.log('AuthContext: Initializing auth...');
+        console.log('AuthContext: Initializing ClassroomLM auth...');
         
         // Get initial session
         const { data: { session: initialSession }, error: sessionError } = await supabase.auth.getSession();
@@ -131,7 +131,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (sessionError) {
           console.error('AuthContext: Error getting initial session:', sessionError);
           
-          // If the session is invalid, clear local state
+          // If the session is invalid, clear local state and redirect to auth
           if (sessionError.message.includes('session_not_found') || 
               sessionError.message.includes('Session not found')) {
             console.log('AuthContext: Session not found on server, clearing local session');

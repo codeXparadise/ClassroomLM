@@ -162,4 +162,41 @@
   .glow:hover {
     box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
   }
+  
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+  
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .animate-floating {
+    animation: floating 6s ease-in-out infinite;
+  }
+  
+  .delay-1000 {
+    animation-delay: 1s;
+  }
+  
+  .delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .hover-scale-105:hover {
+    transform: scale(1.05);
+  }
+  
+  .hover-scale-110:hover {
+    transform: scale(1.10);
+  }
 }

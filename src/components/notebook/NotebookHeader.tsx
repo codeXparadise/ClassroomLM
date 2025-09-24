@@ -66,7 +66,7 @@ const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
           <div className="flex items-center space-x-2">
             <button 
               onClick={handleIconClick}
-              className="hover:bg-gray-50 rounded transition-colors p-1"
+              className="hover:bg-gray-50 rounded-xl transition-all duration-300 p-2 hover:scale-110 hover:shadow-lg"
             >
               <Logo />
             </button>
