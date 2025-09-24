@@ -228,3 +228,5 @@ const StudentCalendar = () => {
     </div>
   );
 };
+
+export default StudentCalendar
