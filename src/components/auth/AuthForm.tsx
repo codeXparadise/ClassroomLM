@@ -9,7 +9,11 @@ import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
-const AuthForm = () => {
+interface AuthFormProps {
+  expectedRole?: 'student' | 'admin';
+}
+
+const AuthForm = ({ expectedRole }: AuthFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -50,6 +54,25 @@ const AuthForm = () => {
       
       console.log('Sign in successful:', data.user?.email);
       
+      // Check user role if expectedRole is provided
+      if (expectedRole && data.user) {
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .single();
+
+        if (profileError) {
+          console.error('Error fetching user profile:', profileError);
+          throw new Error('Unable to verify user role. Please try again.');
+        }
+
+        if (profile?.role !== expectedRole) {
+          await supabase.auth.signOut();
+          throw new Error(`This account is not registered as a ${expectedRole}. Please use the correct login portal.`);
+        }
+      }
+      
       toast({
         title: "Welcome back!",
         description: "You have successfully signed in.",
@@ -76,6 +99,13 @@ const AuthForm = () => {
         <CardDescription>
           Enter your credentials to access your notebooks
         </CardDescription>
+        {expectedRole && (
+          <div className="mt-2 p-3 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-800">
+              Signing in as: <span className="font-semibold capitalize">{expectedRole}</span>
+            </p>
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
