@@ -70,25 +70,29 @@ const NotebookGrid = () => {
   }
 
   return <div>
-      <div className="flex items-center justify-between mb-8">
-        <Button className="bg-black hover:bg-gray-800 text-white rounded-full px-6" onClick={handleCreateNotebook} disabled={isCreating}>
+      <div className="flex items-center justify-between mb-8 backdrop-blur-sm bg-white/70 rounded-2xl p-4 border border-white/20 shadow-lg">
+        <Button 
+          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8 py-3 transition-all duration-300 hover:scale-105 shadow-lg" 
+          onClick={handleCreateNotebook} 
+          disabled={isCreating}
+        >
           {isCreating ? 'Creating...' : '+ Create new'}
         </Button>
         
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center space-x-2 bg-white rounded-lg border px-3 py-2 cursor-pointer hover:bg-gray-50 transition-colors">
+              <div className="flex items-center space-x-2 backdrop-blur-sm bg-white/50 rounded-xl border border-white/30 px-4 py-2 cursor-pointer hover:bg-white/70 transition-all duration-300 hover:scale-105 shadow-md">
                 <span className="text-sm text-gray-600">{sortBy}</span>
                 <ChevronDown className="h-4 w-4 text-gray-400" />
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={() => setSortBy('Most recent')} className="flex items-center justify-between">
+            <DropdownMenuContent align="end" className="w-48 backdrop-blur-sm bg-white/90 border-white/20">
+              <DropdownMenuItem onClick={() => setSortBy('Most recent')} className="flex items-center justify-between hover:bg-white/50">
                 Most recent
                 {sortBy === 'Most recent' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSortBy('Title')} className="flex items-center justify-between">
+              <DropdownMenuItem onClick={() => setSortBy('Title')} className="flex items-center justify-between hover:bg-white/50">
                 Title
                 {sortBy === 'Title' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
@@ -97,7 +101,7 @@ const NotebookGrid = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {sortedNotebooks.map(notebook => <div key={notebook.id} onClick={e => handleNotebookClick(notebook.id, e)}>
             <NotebookCard notebook={{
           id: notebook.id,
