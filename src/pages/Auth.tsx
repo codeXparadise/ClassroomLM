@@ -89,6 +89,8 @@ const Auth = () => {
               <Button className="w-full bg-blue-600 hover:bg-blue-700">
                 Continue as Student
               </Button>
+            </CardContent>
+          </Card>
           <Card 
             className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-purple-300"
             onClick={() => setSelectedRole('admin')}
@@ -133,7 +135,7 @@ const Auth = () => {
             Don't have an account? Contact your administrator for access.
           </p>
         </div>
-            </CardContent>
+      </div>
     </div>
   );
 };
