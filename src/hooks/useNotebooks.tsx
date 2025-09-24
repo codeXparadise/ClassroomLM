@@ -27,7 +27,6 @@ export const useNotebooks = () => {
       const { data: notebooksData, error: notebooksError } = await supabase
         .from('notebooks')
         .select('*')
-        .eq('user_id', user.id)
         .order('updated_at', { ascending: false });
 
       if (notebooksError) {

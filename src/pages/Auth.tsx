@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { GraduationCap, Users } from 'lucide-react';
@@ -25,12 +24,12 @@ const Auth = () => {
               <Logo size="lg" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {selectedRole === 'student' ? 'Student' : 'Admin'} Login
+              {selectedRole === 'student' ? 'Student' : 'Admin'} Portal
             </h1>
             <p className="text-gray-600">
               {selectedRole === 'student' 
-                ? 'Access your learning dashboard and AI-powered notebooks'
-                : 'Manage your classroom and track student progress'
+                ? 'Sign in or create an account to access your learning dashboard'
+                : 'Sign in or create an account to manage your classroom'
               }
             </p>
           </div>
@@ -132,7 +131,7 @@ const Auth = () => {
 
         <div className="text-center mt-8">
           <p className="text-gray-500 text-sm">
-            Don't have an account? Contact your administrator for access.
+            New to InsightsLM? Create an account to get started with AI-powered learning.
           </p>
         </div>
       </div>
