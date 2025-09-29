@@ -1,12 +1,10 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
 import { useNotebookGeneration } from './useNotebookGeneration';
 import { useEffect } from 'react';
 
 export const useSources = (notebookId?: string) => {
-  const { user } = useAuth();
   const queryClient = useQueryClient();
   const { generateNotebookContentAsync } = useNotebookGeneration();
 
@@ -33,7 +31,7 @@ export const useSources = (notebookId?: string) => {
 
   // Set up Realtime subscription for sources table
   useEffect(() => {
-    if (!notebookId || !user) return;
+    if (!notebookId) return;
 
     console.log('Setting up Realtime subscription for sources table, notebook:', notebookId);
 
@@ -93,7 +91,7 @@ export const useSources = (notebookId?: string) => {
       console.log('Cleaning up Realtime subscription for sources');
       supabase.removeChannel(channel);
     };
-  }, [notebookId, user, queryClient]);
+  }, [notebookId, queryClient]);
 
   const addSource = useMutation({
     mutationFn: async (sourceData: {
@@ -107,7 +105,6 @@ export const useSources = (notebookId?: string) => {
       processing_status?: string;
       metadata?: any;
     }) => {
-      if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
         .from('sources')

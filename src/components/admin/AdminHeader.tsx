@@ -2,21 +2,16 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { User, LogOut, Settings, Bell, Activity } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useLogout } from '@/services/authService';
-import { useAuth } from '@/contexts/AuthContext';
 import Logo from '@/components/ui/Logo';
 
 const AdminHeader = () => {
-  const { logout } = useLogout();
-  const { user } = useAuth();
-
   return (
     <header className="backdrop-blur-sm bg-white/80 border-b border-white/20 px-6 py-4 shadow-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <Logo />
           <div>
-            <h1 className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">InsightsLM</h1>
+            <h1 className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">ClassroomLM</h1>
             <p className="text-sm text-gray-600">Admin Portal</p>
           </div>
         </div>
@@ -41,14 +36,14 @@ const AdminHeader = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 backdrop-blur-sm bg-white/90 border-white/20">
               <div className="px-2 py-1.5 text-sm text-gray-600">
-                {user?.email}
+                admin@example.com
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="cursor-pointer hover:bg-white/50">
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={logout} className="cursor-pointer hover:bg-white/50">
+              <DropdownMenuItem className="cursor-pointer hover:bg-white/50">
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </DropdownMenuItem>

@@ -10,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLogout } from '@/services/authService';
 import Logo from '@/components/ui/Logo';
 
 interface NotebookHeaderProps {
@@ -20,7 +19,6 @@ interface NotebookHeaderProps {
 
 const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
   const navigate = useNavigate();
-  const { logout } = useLogout();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const { updateNotebook, isUpdating } = useNotebookUpdate();
@@ -102,7 +100,7 @@ const NotebookHeader = ({ title, notebookId }: NotebookHeaderProps) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={logout} className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer">
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
                 </DropdownMenuItem>

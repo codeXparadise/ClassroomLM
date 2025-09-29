@@ -1,7 +1,6 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
 import { EnhancedChatMessage, Citation, MessageSegment } from '@/types/message';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
@@ -162,7 +161,6 @@ const transformMessage = (item: any, sourceMap: Map<string, any>): EnhancedChatM
 };
 
 export const useChatMessages = (notebookId?: string) => {
-  const { user } = useAuth();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -197,14 +195,14 @@ export const useChatMessages = (notebookId?: string) => {
       // Transform the data to match our expected format
       return data.map((item) => transformMessage(item, sourceMap));
     },
-    enabled: !!notebookId && !!user,
+    enabled: !!notebookId,
     refetchOnMount: true,
     refetchOnReconnect: true,
   });
 
   // Set up Realtime subscription for new messages
   useEffect(() => {
-    if (!notebookId || !user) return;
+    if (!notebookId) return;
 
     console.log('Setting up Realtime subscription for notebook:', notebookId);
 
@@ -254,7 +252,7 @@ export const useChatMessages = (notebookId?: string) => {
       console.log('Cleaning up Realtime subscription');
       supabase.removeChannel(channel);
     };
-  }, [notebookId, user, queryClient]);
+  }, [notebookId, queryClient]);
 
   const sendMessage = useMutation({
     mutationFn: async (messageData: {
@@ -262,14 +260,13 @@ export const useChatMessages = (notebookId?: string) => {
       role: 'user' | 'assistant';
       content: string;
     }) => {
-      if (!user) throw new Error('User not authenticated');
 
       // Call the n8n webhook
       const webhookResponse = await supabase.functions.invoke('send-chat-message', {
         body: {
           session_id: messageData.notebookId,
           message: messageData.content,
-          user_id: user.id
+          user_id: 'demo-user-id' // Temporary for development
         }
       });
 
@@ -287,7 +284,6 @@ export const useChatMessages = (notebookId?: string) => {
 
   const deleteChatHistory = useMutation({
     mutationFn: async (notebookId: string) => {
-      if (!user) throw new Error('User not authenticated');
 
       console.log('Deleting chat history for notebook:', notebookId);
       

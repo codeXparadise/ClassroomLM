@@ -3,7 +3,6 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { User, LogOut } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useLogout } from '@/services/authService';
 import Logo from '@/components/ui/Logo';
 
 interface DashboardHeaderProps {
@@ -11,7 +10,6 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
-  const { logout } = useLogout();
 
   return (
     <header className="bg-white px-6 py-4">
@@ -31,7 +29,7 @@ const DashboardHeader = ({ userEmail }: DashboardHeaderProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={logout} className="cursor-pointer">
+              <DropdownMenuItem className="cursor-pointer">
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </DropdownMenuItem>

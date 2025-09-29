@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
 
 export interface Note {
   id: string;
@@ -15,7 +14,6 @@ export interface Note {
 }
 
 export const useNotes = (notebookId?: string) => {
-  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   const { data: notes, isLoading } = useQuery({
@@ -32,7 +30,7 @@ export const useNotes = (notebookId?: string) => {
       if (error) throw error;
       return data as Note[];
     },
-    enabled: !!notebookId && !!user,
+    enabled: !!notebookId,
   });
 
   const createNoteMutation = useMutation({

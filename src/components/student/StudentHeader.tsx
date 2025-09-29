@@ -2,21 +2,16 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { User, LogOut, Bell, MessageCircle } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useLogout } from '@/services/authService';
-import { useAuth } from '@/contexts/AuthContext';
 import Logo from '@/components/ui/Logo';
 
 const StudentHeader = () => {
-  const { logout } = useLogout();
-  const { user } = useAuth();
-
   return (
     <header className="backdrop-blur-sm bg-white/80 border-b border-white/20 px-6 py-4 shadow-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <Logo />
           <div>
-            <h1 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">InsightsLM</h1>
+            <h1 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">ClassroomLM</h1>
             <p className="text-sm text-gray-600">Student Portal</p>
           </div>
         </div>
@@ -41,9 +36,9 @@ const StudentHeader = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 backdrop-blur-sm bg-white/90 border-white/20">
               <div className="px-2 py-1.5 text-sm text-gray-600">
-                {user?.email}
+                student@example.com
               </div>
-              <DropdownMenuItem onClick={logout} className="cursor-pointer">
+              <DropdownMenuItem className="cursor-pointer">
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </DropdownMenuItem>

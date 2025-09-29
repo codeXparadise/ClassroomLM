@@ -2,10 +2,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
 
 export const useNotebooks = () => {
-  const { user, isAuthenticated, loading: authLoading } = useAuth();
   const queryClient = useQueryClient();
 
   const {
@@ -14,14 +12,9 @@ export const useNotebooks = () => {
     error,
     isError,
   } = useQuery({
-    queryKey: ['notebooks', user?.id],
+    queryKey: ['notebooks'],
     queryFn: async () => {
-      if (!user) {
-        console.log('No user found, returning empty notebooks array');
-        return [];
-      }
-      
-      console.log('Fetching notebooks for user:', user.id);
+      console.log('Fetching notebooks...');
       
       // First get the notebooks
       const { data: notebooksData, error: notebooksError } = await supabase
@@ -54,7 +47,7 @@ export const useNotebooks = () => {
       console.log('Fetched notebooks:', notebooksWithCounts?.length || 0);
       return notebooksWithCounts || [];
     },
-    enabled: isAuthenticated && !authLoading,
+    enabled: true,
     retry: (failureCount, error) => {
       // Don't retry on auth errors
       if (error?.message?.includes('JWT') || error?.message?.includes('auth')) {
@@ -66,8 +59,6 @@ export const useNotebooks = () => {
 
   // Set up real-time subscription for notebooks updates
   useEffect(() => {
-    if (!user?.id || !isAuthenticated) return;
-
     console.log('Setting up real-time subscription for notebooks');
 
     const channel = supabase
@@ -78,13 +69,12 @@ export const useNotebooks = () => {
           event: '*',
           schema: 'public',
           table: 'notebooks',
-          filter: `user_id=eq.${user.id}`
         },
         (payload) => {
           console.log('Real-time notebook update received:', payload);
           
           // Invalidate and refetch notebooks when any change occurs
-          queryClient.invalidateQueries({ queryKey: ['notebooks', user.id] });
+          queryClient.invalidateQueries({ queryKey: ['notebooks'] });
         }
       )
       .subscribe();
@@ -93,24 +83,19 @@ export const useNotebooks = () => {
       console.log('Cleaning up real-time subscription');
       supabase.removeChannel(channel);
     };
-  }, [user?.id, isAuthenticated, queryClient]);
+  }, [queryClient]);
 
   const createNotebook = useMutation({
     mutationFn: async (notebookData: { title: string; description?: string }) => {
       console.log('Creating notebook with data:', notebookData);
-      console.log('Current user:', user?.id);
       
-      if (!user) {
-        console.error('User not authenticated');
-        throw new Error('User not authenticated');
-      }
 
       const { data, error } = await supabase
         .from('notebooks')
         .insert({
           title: notebookData.title,
           description: notebookData.description,
-          user_id: user.id,
+          user_id: 'demo-user-id', // Temporary for development
           generation_status: 'pending',
         })
         .select()
@@ -126,7 +111,7 @@ export const useNotebooks = () => {
     },
     onSuccess: (data) => {
       console.log('Mutation success, invalidating queries');
-      queryClient.invalidateQueries({ queryKey: ['notebooks', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ['notebooks'] });
     },
     onError: (error) => {
       console.error('Mutation error:', error);
@@ -135,7 +120,7 @@ export const useNotebooks = () => {
 
   return {
     notebooks,
-    isLoading: authLoading || isLoading,
+    isLoading,
     error: error?.message || null,
     isError,
     createNotebook: createNotebook.mutate,
