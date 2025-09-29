@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, Users, BarChart3, FileText, MessageCircle, Headphones, ArrowRight, CheckCircle, GraduationCap, UserCog, Sparkles, Brain, Target, TrendingUp } from 'lucide-react';
+import { BookOpen, Users, ChartBar as BarChart3, FileText, MessageCircle, Headphones, ArrowRight, CircleCheck as CheckCircle, GraduationCap, UserCog, Sparkles, Brain, Target, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '@/components/ui/Logo';
 

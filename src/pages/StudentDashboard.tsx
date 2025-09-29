@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, FileText, Clock, TrendingUp, Plus, Search, Calendar, MessageCircle, CheckSquare, Users } from 'lucide-react';
+import { BookOpen, FileText, Clock, TrendingUp, Plus, Search, Calendar, MessageCircle, SquareCheck as CheckSquare, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useNotebooks } from '@/hooks/useNotebooks';
 import NotebookGrid from '@/components/dashboard/NotebookGrid';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Users, FileText, BarChart3, Settings, TrendingUp, UserPlus, BookOpen, Calendar, Activity, UserCheck, Upload, Clock } from 'lucide-react';
+import { Users, FileText, ChartBar as BarChart3, Settings, TrendingUp, UserPlus, BookOpen, Calendar, Activity, UserCheck, Upload, Clock } from 'lucide-react';
 import AdminHeader from '@/components/admin/AdminHeader';
 import StudentManagement from '@/components/admin/StudentManagement';
 import ClassManagement from '@/components/admin/ClassManagement';
